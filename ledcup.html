@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Progress</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 400px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.header h1 {
+    font-size: 24px;
+    flex-grow: 1;
+    margin: 0;
+}
+
+canvas {
+    max-height: 300px;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.legend span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.intake {
+    background-color: rgba(33, 150, 243, 0.8);
+}
+
+.goal {
+    background-color: rgba(33, 150, 243, 0.3);
+}
+
+.average {
+    margin-top: 20px;
+}
+
+.average p {
+    margin: 0;
+    font-size: 14px;
+    color: #888;
+}
+
+.average h2 {
+    font-size: 36px;
+    margin: 5px 0;
+    color: #2196F3;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button">&lt;</button>
+            <h1>View Progress</h1>
+        </div>
+        <canvas id="progressChart"></canvas>
+        <div class="legend">
+            <div>
+                <span class="intake"></span> Intake
+            </div>
+            <div>
+                <span class="goal"></span> Goal
+            </div>
+        </div>
+        <div class="average">
+            <p>Week Average</p>
+            <h2>6.4</h2>
+            <p>cups / day</p>
+        </div>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('progressChart').getContext('2d');
+        var progressChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['3/29', '3/30', '3/31', '4/1', '4/2', '4/3', '4/4'],
+                datasets: [
+                    {
+                        label: 'Intake',
+                        data: [6, 5, 4, 7, 8, 6, 9],
+                        backgroundColor: 'rgba(33, 150, 243, 0.8)'
+                    },
+                    {
+                        label: 'Goal',
+                        data: [8, 8, 8, 8, 8, 8, 8],
+                        backgroundColor: 'rgba(33, 150, 243, 0.3)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Amount of H2O (Cups)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

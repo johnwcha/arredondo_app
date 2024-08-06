@@ -1,48 +1,29 @@
-let arreObj
-let video_list
-let topIntent
-
-// The following function creates an <iframe> and Panopto player
-// var embedApi
-// var embedApi_encouraging
-// var embedApi_no_answer
+let video_list = [
+    { tag: 'intro', sid: '' },
+    { tag: 'not_sure', sid: '' },
+    { tag: 'arre-q1', sid: '25b510c4-f088-4e06-ad70-b15a014d1039' },
+    { tag: 'arre-q2', sid: 'beab5a02-a128-463f-907e-b15a011447a6' },
+    { tag: 'arre-q3', sid: '425b51d6-92fb-4a74-ae0d-b15a011447d8' },
+    { tag: 'arre-q4', sid: 'a1b28a56-6569-4853-b418-b178016d1a80' },
+    { tag: 'arre-q5', sid: 'd3a1c578-fa09-4bbb-8efe-b178016d9077' },
+]
 
 let convs = []
 // < { type: 'arredondo', time: '', msg: '' }
 // < { type: 'user', time: '', msg: '' }
-/*
-const waiting_vid = '1cb96a40-6b26-4b75-b491-b15d00022565'
-
-const arre_encouragement = [
-    '0bf04012-8ba7-43cc-9049-b1a9016e83f8', '09566bc3-8fe8-4910-b414-b1a9016e96ac', 'd7bf18ba-48d8-441c-acef-b1a9016eaf4a', 'b29b499c-a259-469c-9728-b1a9016dfecf', 'af970424-d2c5-4125-8cdc-b1a9016dfe9d',
-    '65575eaa-d464-45c5-9002-b1a9016dff01', 'b9f0eb55-01e0-4819-a721-b1a9016dff2b', '0c2f7e20-72c4-480f-aade-b1a9016e0533', 'f4a181e7-3691-4fa1-b68b-b1a9016e0b46', '2af4d91e-3147-491b-9226-b1a9016e0ec3',
-    '17d432e5-74d2-4ff3-93cf-b1a9016e0eed', '3537b3f6-117d-472a-9a5c-b1a9016e15cb', 'e39ae14e-a814-42f6-bb22-b1a9016e1600', '12a64d89-b2de-4c4a-bf4e-b1a9016e1cd9', 'f6a96576-276a-4d77-8c4c-b1a9016e209e',
-    '1ec3bc5a-3279-4315-905e-b1a9016e250c', 'd22adee0-d4cb-4084-ba63-b1a9016e2634', '72edfdce-b296-46a4-a506-b1a9016e3571', 'ccf7508b-05db-47be-b9b7-b1a9016e4f42', '4ade7937-2937-480d-bf8a-b1a9016e644d'
-]
-const arre_inspiring = [
-    '01306d40-d3bc-4d1b-8f52-b15d00021561', 'e52d13f7-fa0e-4786-be7d-b1aa0000dcc8', '6d347bdf-a358-40a1-9c58-b1a9018b0ecf', '53279b8b-09d2-47fa-9183-b1a9018b0f34', '29923f1a-d799-4ffb-b259-b1a9018b0f60', 
-    '1067d80e-d338-4fd3-b5a6-b1a9018b0efd', '7cbe0a2a-ad94-4561-b359-b1a9018b1643', '804d0f33-089a-4cc2-a59e-b1a9018b2f5d', 'b799f8a7-2145-4fb6-8d73-b1a9018b45eb', 'eab3cfcd-6a62-4c8c-bfd1-b1a9018b5e26', 
-    'bca01f2e-9dc4-496d-b1cb-b1a9018b727b', '1d5857fd-69d1-40cd-9f04-b1aa0000091c', 'a04e6ad7-e2fc-4c6e-817b-b1aa00002280', '0e79bcf4-d9b6-47bc-b9e4-b1aa0000399d', 'b7e66207-c884-459f-b9a4-b1aa00004eca', 
-    'bc11dbcb-3d30-4cea-82f5-b1aa0000688b', '3b617d2e-a499-422a-9b1c-b1aa0000807a', 'f81f83f9-f1cc-47fe-8f23-b1aa00009675', '5fde9be8-d6d2-44cd-ba1b-b1aa0000afd3', '0f00dd7d-90e7-4a8b-b6a5-b1aa0000c4f6'
-]
-const arre_noanswer = [
-    '5321f631-f4ae-4bb8-8c76-b15d00021d4a', 'fe9084b5-65d5-4ec3-a9fe-b1af0184816a', '412db663-912d-4724-b6d4-b1af0184819d', '40a17362-453f-4dd3-857f-b1af018481f0', 'f4ab3cb2-8117-4e71-8dfd-b1af018481c7', 
-    'b84afbda-f1a7-4046-8fb0-b1af01848808', 'aa604b6c-a960-44bf-8072-b1af01848c83', 'c3a9279a-c392-45fd-8598-b1af0184928f', '7677b0c7-1a0d-4e98-9dbb-b1af0184983e', 'b27fc004-eb37-4791-9dc8-b1af01849bbc', 
-    'c7932beb-a68c-4b21-bb12-b1af0184a0f3', '768f67e5-8d13-4a20-bb5a-b1af0184a172', 'b86d30f3-7538-49e0-b430-b1af0184a7fd', 'e99d5a01-15e9-4dd8-872e-b1af0184aa5e', 'b9dc8bd0-8206-46f6-a884-b1af0184af90', 
-    '4f2c4bcd-c216-4867-ae1d-b1af0184bfef', 'ed2d3657-388e-4a78-be48-b1af0184d87d', '928dca7e-899b-40d4-9d4d-b1af0184f199', 'e1216ddb-ae31-4325-9b6d-b1af01850424', '055c338d-7e98-482a-9f41-b1af01851f27'
-]
-*/
 
 let arredondo_base64
 let user_base64
 
 const intro_vid_url = 'https://storage.googleapis.com/arredondo_videos/arredondo_intro_edit.mp4'
-
+// document.getElementById('play_btn').addEventListener('click', () => {
+//     document.getElementById("intro").play()
+// })
 const createDotFlashing = () => {
     const dfContainer = document.createElement('div');
     dfContainer.classList.add('mb-2', 'flex', 'justify-start', 'dotFlashing');
     const html = 
-        '<img src="https://storage.googleapis.com/arredondo_videos/arredondo_icon.png" class="w-10 h-10 mr-2">' +
+        '<img src="/arredondo_icon.png" class="w-10 h-10 mr-2">' +
         '<div class="bg-white rounded-tl-full rounded-tr-full rounded-br-full w-16">' +
         '<div class="dot-flashing ms-6 mt-4">  </div>' +
         '</div>'
@@ -60,12 +41,11 @@ const createUserInput = (input) => {
     userSpeech.innerHTML = 
     '<div class="mb-2 flex max-w-80 items-end">' +
         '<div class="bg-gray-100 opacity-80 md:opacity-100 text-gray-700 user-bubble-radius py-2 px-4 inline-block">' + input + '</div>' +
-        '<img src="https://storage.googleapis.com/arredondo_videos/wcu_icon_1.png" class="w-10 h-10 ml-2" >' +
+        '<img src="/wcu_icon_1.png" class="w-10 h-10 ml-2" >' +
     '</div>'
     return userSpeech
 }
 const createArrResponse = (obj) => {
-    // console.log( obj )
     const parentElement = $('#chatbox')
     if (parentElement.children(':last-child').hasClass('dotFlashing')) {
         // Remove the last child element
@@ -80,9 +60,9 @@ const createArrResponse = (obj) => {
         convs.push( { type: 'arredondo', time: time, msg: obj.msg.part, link: obj.url } )
 
         arrSpeech.innerHTML = '<div class="mb-2 flex max-w-80 items-end">' +
-            '<img src="https://storage.googleapis.com/arredondo_videos/arredondo_icon.png" class="w-10 h-10 mr-2">' +
+            '<img src="/arredondo_icon.png" class="w-10 h-10 mr-2">' +
             '<div class="bg-gray-100 opacity-80 md:opacity-100 text-slate-950 sm:text-gray-700 arredondo-bubble-radius py-2 px-4 inline-block">' +
-                obj.msg.part[0] + '<a href="' + obj.url + '" target="_blank" class="underline">' + obj.msg.part[1] + '</a>' + obj.msg.part[2] +
+                + obj.msg.part[0] + '<a href="' + obj.url + '" target="_blank" class="underline">' + obj.msg.part[1] + '</a>' + obj.msg.part[2] +
             '</div>' +
         '</div>'
     }
@@ -90,9 +70,9 @@ const createArrResponse = (obj) => {
         convs.push( { type: 'arredondo', time: time, msg: obj.text } )
 
         arrSpeech.innerHTML = '<div class="mb-2 flex max-w-80 items-end">' +
-            '<img src="https://storage.googleapis.com/arredondo_videos/arredondo_icon.png" class="w-10 h-10 mr-2">' +
+            '<img src="/arredondo_icon.png" class="w-10 h-10 mr-2">' +
             '<div class="bg-gray-100 opacity-80 md:opacity-100 text-slate-950 sm:text-gray-700 arredondo-bubble-radius py-2 px-4 inline-block">' +
-                obj.text +
+                + obj.text +
             '</div>' +
         '</div>'
     }
@@ -142,15 +122,24 @@ $('#section_div').click(function(event){
     // Log the mouse coordinates
     // console.log('Mouse X:', mouseX, 'Mouse Y:', mouseY);
 
-    // document.getElementById('intro').muted = false
-    // document.getElementById('intro').play()
+    document.getElementById('intro').muted = false
+    document.getElementById('intro').play()
 })
 // < speaker
 document.getElementById('speaker').addEventListener('click', () => {
     document.getElementById('intro').muted = false
     document.getElementById('intro').play();
 })
-/*
+// < before
+document.getElementById('before').addEventListener('ended', () => {
+    console.log('before video ENDED')
+    document.getElementById('before_div').classList.add("hidden")
+    document.getElementById('intro_div').classList.remove("hidden")
+
+    document.getElementById("status").innerHTML = 'playing video: Introduction'
+    console.log('intro video starts playing ...')
+    document.getElementById('intro').play()
+})
 function end_intro(){
     console.log('intro video ENDED')
     document.getElementById('intro_div').classList.add("hidden")
@@ -168,71 +157,63 @@ function end_intro(){
 
     $('#speaker').hide(1000);
     $('#skip_arrow').hide(1000);
-} */
+}
+// < intro
+document.getElementById('intro').addEventListener('ended', () => {
+    end_intro();
+})
+document.getElementById('intro').addEventListener('playing', () => {
+    console.log( 'intro playing events ...' )
+    // setInterval(()=>{
+    //     console.log( document.getElementById('intro').currentTime )
+    // }, 300)
+})
+// < waiting
+document.getElementById('waiting').addEventListener('ended', () => {
+    console.log('waiting video ENDED')
+    document.getElementById('waiting_div').classList.add("hidden")
+    document.getElementById('ask_div').classList.remove("hidden")
+
+    document.getElementById("status").innerHTML = 'playing video: Ask me a question'
+    console.log('ask video playing ...')
+    document.getElementById('ask').play()
+})
+// < ask me questions
+document.getElementById('ask').addEventListener('ended', () => {
+    document.getElementById("status").innerHTML = 'end of video: Ask me a question'
+    $('#status').hide(1000);
+})
+// < answer
+document.getElementById('answer').addEventListener('ended', ()=>{
+    document.getElementById('answer_div').classList.add('hidden')
+    document.getElementById('waiting_div').classList.remove("hidden")
+    document.getElementById('waiting').play()
+})
 // < reset videos
 function reset_videos(){
-    // console.log( embedApi )
-    // console.log( topIntent )
-    // console.log( 'arredondo object ::: ', arreObj[topIntent] )
-    // console.log( 'sessionId ::: ', arreObj[topIntent].url)
-    $('#no-answer').css('display', 'none')
-    $('#encouraging').css('display', 'none')
-
-    // < remove iframe instance
-    const player = document.getElementById('pplayer')
-    player.style.display = ''
-    var iframe = player.querySelector("iframe");
-    // iframe.src = "https://google.com"
-    console.log( iframe.src)
-    const sessionId = arreObj[topIntent].url
-    const src = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Embed.aspx?id=' + sessionId + '&remoteEmbed=true&remoteHost=http%3A%2F%2Flocalhost%3A5173&embedApiId=pplayer&interactivity=none&showtitle=false'
-    iframe.src = src;
+    document.getElementById('before_div').classList.add("hidden")
+    document.getElementById('intro_div').classList.add("hidden")
+    document.getElementById('intro').pause()
+    document.getElementById('intro').currentTime = 0;
+    document.getElementById('waiting_div').classList.add("hidden")
+    document.getElementById('waiting').pause()
+    document.getElementById('waiting').currentTime = 0;
+    document.getElementById('ask_div').classList.add("hidden")
+    document.getElementById('ask').pause()
+    document.getElementById('ask').currentTime = 0;
+    document.getElementById('answer_div').classList.add("hidden")
+    document.getElementById('answer').pause()
+    document.getElementById('answer').currentTime = 0;
+    document.getElementById('notsure_div').classList.add("hidden")
+    document.getElementById('notsure').pause()
+    document.getElementById('notsure').currentTime = 0;
 }
-// * ------------------------
-// *    query dialogflow API
-// * ------------------------
-async function queryAPI_DF(userMessage) {
-    const response = await fetch('https://us-west2-classbot-336213.cloudfunctions.net/arredondo-detect-intent-1?input=' + userMessage);
-    const result = await response.json();
-    console.log(result)
-    if (result.queryResult.match.matchType === 'INTENT') {
-        const vid = result.queryResult.responseMessages[0].payload.fields.arredondo.structValue.fields.recordset.listValue.values[0].structValue.fields.url.stringValue
-        // console.log( vid )
-        const player = document.getElementById('pplayer')
-        player.style.display = ''
-        var iframe = player.querySelector("iframe");
-        // iframe.src = "https://google.com"
-        // console.log( iframe.src)
-        const sessionId = vid
-        const src = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Embed.aspx?id=' + sessionId + '&remoteEmbed=true&remoteHost=http%3A%2F%2Flocalhost%3A5173&embedApiId=pplayer&interactivity=none&showtitle=false'
-        iframe.src = src;
-
-        const vid_url = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=' + arreObj[topIntent].url
-        $('#chatbox').append( createArrResponse({ 
-            type: 'link', 
-            url: vid_url, 
-            msg: {part: ['You can also view this video using ', 'this link', '.']}
-        }) )    
-    } else if (result.queryResult.match.matchType === 'NO_MATCH') {
-        // play_noanswer()
-        console.log( 'NO_MATCH' )
-        console.log( arre_noanswer )
-        const msg = "That's a good question, but I'm not entirely sure."
-        $('#chatbox').append( createArrResponse({ type: 'text', text: msg }) )  
-
-        $('#pplayer').css('display', "none")
-        $('#inspiring').css('display', "none")
-        $('#waiting').css('display', "none")
-        // $('#').css('display', "none")
-
-        embedApi.stopVideo()
-        embedApi_inspiring.stopVideo()
-        // const no_answer = document.getElementById("no-answer")
-        // no_answer.style.display = ''
-        $('#no-answer').css('display', '')
-        embedApi_no_answer.playVideo()
-    }
-}
+// < not sure
+document.getElementById('notsure').addEventListener('ended', () => {
+    document.getElementById('notsure_div').classList.add('hidden')
+    document.getElementById('waiting_div').classList.remove("hidden")
+    document.getElementById('waiting').play()
+})
 // * --------------------
 // *    query Azure API
 // * --------------------
@@ -251,63 +232,101 @@ async function queryAPI_Azure(userMessage) {
             text: userMessage
         })
     })
-    const data = await response.json();
-    console.log( '::: top intent ::: ', data.result.prediction.topIntent )
-    topIntent = data.result.prediction.topIntent
-    // console.log( 'sessionId ::: ', arreObj[topIntent].url)
-    
-    // console.log( result.recordset )
-    if (data.result.prediction.topIntent === 'None') {
-        // reset_videos();
+    const result = await response.json();
+    // console.log( result.result.prediction.intents[0] )
+    console.log( result.recordset )
+    if (result.recordset) {
+        if (result.recordset.length === 1) {
+            reset_videos();
+            const vid_url = result.recordset[0].url
+            // console.log( vid_url )
+            // document.getElementById('waiting').pause()
+            // document.getElementById('ask').pause()
+            $('#answer_div').removeClass('hidden')
+            // $('#answer').attr('src', vid_url)
+            document.getElementById('answer').src = vid_url
+            document.getElementById('answer').play()
+            // $('#answer').play();
+            $('#chatbox').append( createArrResponse({ 
+                type: 'link', 
+                url: vid_url, 
+                msg: {part: ['You can also view this video using ', 'this link', '.']}
+            }) )    
+        }
+    } else {
+        reset_videos();
         // document.getElementById('waiting').pause()
         // document.getElementById('ask').pause()
         const msg = "That's a good question, but I'm not entirely sure."
+        document.getElementById('notsure_div').classList.remove("hidden")
+        document.getElementById('notsure').play()
+
         $('#chatbox').append( createArrResponse({ type: 'text', text: msg }) )    
-
-        console.log( 'sessionId ::: ', arreObj[topIntent].url)
-        // < remove iframe instance
-        /*
-        const player = document.getElementById('pplayer')
-        var iframe = player.querySelector("iframe");
-        // iframe.src = "https://google.com"
-        console.log( iframe.src)
-        const sessionId = arreObj[topIntent].url
-        const src = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Embed.aspx?id=' + sessionId + '&remoteEmbed=true&remoteHost=http%3A%2F%2Flocalhost%3A5173&embedApiId=pplayer&interactivity=none&showtitle=false'
-        iframe.src = src; */
-
-        // const pplayer = document.getElementById('pplayer')
-        // pplayer.style.display = "none"
-        $('#pplayer').css('display', "none")
-        embedApi.stopVideo()
-        // const no_answer = document.getElementById("no-answer")
-        // no_answer.style.display = ''
-        $('#no-answer').css('display', '')
-        // embedApi_no_answer.stopVideo()
-        // embedApi_no_answer.loadVideo()
-        // embedApi_no_answer.playVideo()
-    
-    } else {
-        reset_videos();
-        // $('#answer_div').removeClass('hidden')
-        // $('#answer').attr('src', vid_url)
-        const vid_url = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=' + arreObj[topIntent].url
-        $('#chatbox').append( createArrResponse({ 
-            type: 'link', 
-            url: vid_url, 
-            msg: {part: ['You can also view this video using ', 'this link', '.']}
-        }) )    
     }
     return true
 }
+// * --------------------
+// *    query API
+// * --------------------
+async function queryAPI(userMessage) {
+    $('#speaker').hide(1000);
+    $('#skip_arrow').hide(1000);
+    // Add code to send userMessage to your server for processing (e.g., to a chatbot backend)
+    // You can then append the chatbot's response to the chatMessages element
+    // * option // AG gen2 flow -> ag-gen2
+    // * detect-intent-4 tested flowVersions[]
+    // * Format: projects/<Project ID>/locations/<Location ID>/agents/<Agent ID>/flows/<Flow ID>/versions/<Version ID>.
+    // ! current in code // (John dev) -> ag-gen2
+    const response = await fetch('https://us-west2-classbot-336213.cloudfunctions.net/arredondo-detect-intent-1?input=' + userMessage);
+    const result = await response.json();
+    // console.log(result)
 
+    if (result.queryResult.match.matchType === 'INTENT') {
+        // * response from webhook
+        if (result.queryResult.responseMessages.length === 1) {
+            if (result.queryResult.responseMessages[0].message === 'payload') {
+                console.log('* response from webhook')
+                reset_videos();
+                const vid_url = result.queryResult.responseMessages[0].payload.fields.arredondo.structValue.fields.recordsets.listValue.values[0].listValue.values[0].structValue.fields.url.stringValue
+                // console.log( vid_url )
+                // document.getElementById('waiting').pause()
+                // document.getElementById('ask').pause()
+                $('#answer_div').removeClass('hidden')
+                // $('#answer').attr('src', vid_url)
+                document.getElementById('answer').src = vid_url
+                document.getElementById('answer').play()
+                // $('#answer').play();
+                $('#chatbox').append( createArrResponse({ 
+                        type: 'link', 
+                        url: vid_url, 
+                        msg: {part: ['You can also view this video using ', 'this link', '.']}
+                    }) )    
+            }
+            else if (result.queryResult.responseMessages[0].message === 'text') {
+                const msg = result.queryResult.responseMessages[0].text.text[0]
+                // console.log( vid_url )
+                $('#chatbox').append( createArrResponse({ type: 'text', text: msg }) )    
+            }
+        }
+    }
+    if (result.queryResult.match.matchType === 'NO_MATCH') {
+        reset_videos();
+        // document.getElementById('waiting').pause()
+        // document.getElementById('ask').pause()
+        const msg = "That's a good question, but I'm not entirely sure."
+        document.getElementById('notsure_div').classList.remove("hidden")
+        document.getElementById('notsure').play()
+
+        $('#chatbox').append( createArrResponse({ type: 'text', text: msg }) )    
+    }
+
+    return result.queryResult.match.matchType
+}
 // *************************************************************************************************
 async function ask(input){
-
-    await queryAPI_DF( input )
-
-    // const result = await queryAPI_Azure( input )
+    const result = await queryAPI_Azure( input )
     // const result = await queryAPI( input )
-    // console.log( 'detect intent: ', result )
+    console.log( 'detect intent: ', result )
 
     const parentElement = $('#chatbox');
     // Check if the last child of the parent element contains the class 'dotFlashing'
@@ -364,6 +383,7 @@ function follow_info_icon(){
     const mask1 = document.getElementById('overlay')
     mask1.style.top  = rect.top-79 + 'px'    // < === 770
     mask1.style.left = rect.left-20 + 'px'   // < === 900
+
 }
 function set_prompt_overlay(){
     const info = document.getElementById('prompt3');
@@ -445,80 +465,31 @@ function cancel_all(){
     hide_bubble3()
     hide_bubble4()
 }
-
-function calculate_iframe_scale(){
-    // console.log('re-calculate scale factor')
-    //< re-calculate scale factor
-    var container = document.getElementById("pplayer");
-    container.style.width = window.innerWidth + "px"
-    container.style.height = window.innerHeight + "px"
-    // // Get the iframe inside the div using querySelector
-    var iframe = container.querySelector("iframe");
-    iframe.style.width = window.innerWidth + "px"
-    iframe.style.height = window.innerHeight + "px"
-    let scale_factor = 1
-    const ar = window.innerWidth/window.innerHeight
-    // console.log( 'AR :: ', ar);
-
-    if ( ar < 1.77) {
-      const video_height = window.innerWidth / 1.77 // 738
-      const fullscreen_height = window.innerHeight
-      scale_factor = fullscreen_height / video_height + 0.01
-    //   console.log('scale factor ::: ', scale_factor)
-    } else {
-        // console.info('AR > 1.77')
-        const video_width = window.innerHeight * 1.77
-        const fullscreen_width = window.innerWidth
-        scale_factor = fullscreen_width / video_width + 0.01  
+const tr = [
+    {
+        "intent": "arre-q4",
+        "language": "en-us",
+        "text": "",
+        "entities": []
     }
-    
-    // iframe.style.transform = 'scale(' + scale_factor + ')'
-}
+]
+//< arredondo UI update
+//< transfer intents from DF to Azure
+//< canvas integration
+//< Azure storage for videos
+//< h5p for interactive videos
 
-function calculate_iframe_dim(){
-    var container = document.getElementById("pplayer");
-    var iframe = container.querySelector("iframe");
-    const ar = window.innerWidth/window.innerHeight
-    console.log('AR : ', ar)
-
-    if ( ar < 1.778 ) {
-      const adjusted_height = Math.floor( iframe.width / 1.778 )
-      iframe.style.height = adjusted_height + 'px'
-      console.log( 'adjusted height: ', adjusted_height)
-    } else {
-      const adjusted_width = Math.floor( iframe.height * 1.778 )
-      iframe.style.width = adjusted_width + 'px'
-    }
-}
-
-async function fetchData() {
-    try {
-        // const arredb_url = 'http://localhost:7071/api/arredondo_db_crud'
-        const arredb_url = 'https://arredondo.azurewebsites.net/api/arredondo_db_crud'
-        const data = { action: 'init' }
-        video_list = await $.ajax({
-            url: arredb_url, // Replace with your API endpoint
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            dataType: 'json'
-        });
-        // return response;
-        console.log( video_list )
-        const byTag = (stored, current) => ({ ...stored, [current.tag]:current})
-        arreObj = video_list.reduce(byTag, {})
-        console.log( arreObj )
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        throw error;
-    }
-}
-
-
-$(document).ready(function() {
+$(function(){
     // Your code here
     console.log('jquery ready')
 
+    var container = document.getElementById("pplayer");
+    // Get the iframe inside the div using querySelector
+    var iframe = container.querySelector("iframe");
+    const vid = "25b510c4-f088-4e06-ad70-b15a014d1039";
+    iframe.src= "https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Embed.aspx?id=" + vid + "&remoteEmbed=true&remoteHost=http%3A%2F%2Flocalhost%3A5173&embedApiId=pplayer&interactivity=none&showtitle=false"
+    
+    console.log( embedApi );
 
     createPrompt();
     $('#end_btn').click(() => {
@@ -603,12 +574,12 @@ $(document).ready(function() {
         var formattedDate = date.toLocaleDateString('en-US', options);
         const date_obj = {text: 'Date: ' + formattedDate, fontsize: 24, bold: true }
         docDefinition.content.push( date_obj )
-        docDefinition.content.push( "\n" )
+        docDefinition.content.push( '\n' )
 
         // < Title
         const title = {text: 'Chat with Dr. Arredondo', fontsize: 24, bold: true, alignment: 'center' }
         docDefinition.content.push( title )
-        docDefinition.content.push( "\n" )
+        docDefinition.content.push( '\n' )
 
         // var time = new Date().toLocaleTimeString();
         convs.forEach(item => {
@@ -647,15 +618,11 @@ $(document).ready(function() {
 
     $('#skip_arrow').click(() => {
         document.getElementById('intro').src = ''
-        // end_intro();
+        end_intro();
     });
 
     $(window).resize(function() {
         // Code to execute when the window is resized
-        follow_info_icon();
-        // calculate_iframe_scale();
-        calculate_iframe_dim();
-
         // console.log("Window height: ", $(window).height());
         if ( $(window).height() < 580 ) {
             $('#chat-container').removeClass('top-1/2')
@@ -711,7 +678,7 @@ $(document).ready(function() {
     })
 
     // URL of the image you want to convert to Base64
-    const arredondo_url = 'https://storage.googleapis.com/arredondo_videos/arredondo_icon.png';
+    const arredondo_url = '/arredondo_icon.png';
     // Fetch the image
     fetch(arredondo_url)
     .then(response => response.blob())
@@ -727,7 +694,7 @@ $(document).ready(function() {
     })
     .catch(error => console.error('Error fetching image:', error));
     
-    const user_url = 'https://storage.googleapis.com/arredondo_videos/wcu_icon_1.png';
+    const user_url = '/wcu_icon_1.png';
     // Fetch the image
     fetch(user_url)
     .then(response => response.blob())
@@ -750,41 +717,11 @@ $(document).ready(function() {
     // < set overlay css position & box-shadow
     // set_info_overlay();
 
-    // window.addEventListener('resize', follow_info_icon);
+    window.addEventListener('resize', follow_info_icon);
     $('#x1').click(() => { cancel_all() })
     $('#x2').click(() => { cancel_all() })
     $('#x3').click(() => { cancel_all() })
     $('#x4').click(() => { cancel_all() })
-
-    fetchData();
 });
 
 // console.log('app.js loaded')
-//< 2nd canvas integration
-//< h5p for interactive videos
-
-//< training phrases upload
-//< ? prompting
-
-//< WCU seal up to 20% transparency
-//< review knowledge base articles for new intents
-//< WCU SASTRC for Students: https://helpdesk.westcoastuniversity.edu/support/solutions/48000455125
-
-//< email Jen for training phrases update
-//< work study to help test training phrases
-
-//! On start:  
-// <    Autoplay introduction  
-// <    Autoplay waiting  
-// <    Autoplay "ask me a question"
-
-//! After learner prompted video play:  
-// <    "Waiting"  
-// <    "Ask me a question"
-
-// "E_XX" files are "encouragement" clips. These may be played before or after a question response to encourage students. 
-// "IE_XX" files are "inspiring enquiry" (ask me) clips. These may be played after the learner has been idle or a few seconds after a response to keep the questions coming. 
-// "NA_XX" files are "no answer" clips. These may be played in response to a question that needs a better answer. 
-
- 
-
