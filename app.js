@@ -2,36 +2,9 @@ let arreObj
 let video_list
 let topIntent
 
-// The following function creates an <iframe> and Panopto player
-// var embedApi
-// var embedApi_encouraging
-// var embedApi_no_answer
-
 let convs = []
 // < { type: 'arredondo', time: '', msg: '' }
 // < { type: 'user', time: '', msg: '' }
-/*
-const waiting_vid = '1cb96a40-6b26-4b75-b491-b15d00022565'
-
-const arre_encouragement = [
-    '0bf04012-8ba7-43cc-9049-b1a9016e83f8', '09566bc3-8fe8-4910-b414-b1a9016e96ac', 'd7bf18ba-48d8-441c-acef-b1a9016eaf4a', 'b29b499c-a259-469c-9728-b1a9016dfecf', 'af970424-d2c5-4125-8cdc-b1a9016dfe9d',
-    '65575eaa-d464-45c5-9002-b1a9016dff01', 'b9f0eb55-01e0-4819-a721-b1a9016dff2b', '0c2f7e20-72c4-480f-aade-b1a9016e0533', 'f4a181e7-3691-4fa1-b68b-b1a9016e0b46', '2af4d91e-3147-491b-9226-b1a9016e0ec3',
-    '17d432e5-74d2-4ff3-93cf-b1a9016e0eed', '3537b3f6-117d-472a-9a5c-b1a9016e15cb', 'e39ae14e-a814-42f6-bb22-b1a9016e1600', '12a64d89-b2de-4c4a-bf4e-b1a9016e1cd9', 'f6a96576-276a-4d77-8c4c-b1a9016e209e',
-    '1ec3bc5a-3279-4315-905e-b1a9016e250c', 'd22adee0-d4cb-4084-ba63-b1a9016e2634', '72edfdce-b296-46a4-a506-b1a9016e3571', 'ccf7508b-05db-47be-b9b7-b1a9016e4f42', '4ade7937-2937-480d-bf8a-b1a9016e644d'
-]
-const arre_inspiring = [
-    '01306d40-d3bc-4d1b-8f52-b15d00021561', 'e52d13f7-fa0e-4786-be7d-b1aa0000dcc8', '6d347bdf-a358-40a1-9c58-b1a9018b0ecf', '53279b8b-09d2-47fa-9183-b1a9018b0f34', '29923f1a-d799-4ffb-b259-b1a9018b0f60', 
-    '1067d80e-d338-4fd3-b5a6-b1a9018b0efd', '7cbe0a2a-ad94-4561-b359-b1a9018b1643', '804d0f33-089a-4cc2-a59e-b1a9018b2f5d', 'b799f8a7-2145-4fb6-8d73-b1a9018b45eb', 'eab3cfcd-6a62-4c8c-bfd1-b1a9018b5e26', 
-    'bca01f2e-9dc4-496d-b1cb-b1a9018b727b', '1d5857fd-69d1-40cd-9f04-b1aa0000091c', 'a04e6ad7-e2fc-4c6e-817b-b1aa00002280', '0e79bcf4-d9b6-47bc-b9e4-b1aa0000399d', 'b7e66207-c884-459f-b9a4-b1aa00004eca', 
-    'bc11dbcb-3d30-4cea-82f5-b1aa0000688b', '3b617d2e-a499-422a-9b1c-b1aa0000807a', 'f81f83f9-f1cc-47fe-8f23-b1aa00009675', '5fde9be8-d6d2-44cd-ba1b-b1aa0000afd3', '0f00dd7d-90e7-4a8b-b6a5-b1aa0000c4f6'
-]
-const arre_noanswer = [
-    '5321f631-f4ae-4bb8-8c76-b15d00021d4a', 'fe9084b5-65d5-4ec3-a9fe-b1af0184816a', '412db663-912d-4724-b6d4-b1af0184819d', '40a17362-453f-4dd3-857f-b1af018481f0', 'f4ab3cb2-8117-4e71-8dfd-b1af018481c7', 
-    'b84afbda-f1a7-4046-8fb0-b1af01848808', 'aa604b6c-a960-44bf-8072-b1af01848c83', 'c3a9279a-c392-45fd-8598-b1af0184928f', '7677b0c7-1a0d-4e98-9dbb-b1af0184983e', 'b27fc004-eb37-4791-9dc8-b1af01849bbc', 
-    'c7932beb-a68c-4b21-bb12-b1af0184a0f3', '768f67e5-8d13-4a20-bb5a-b1af0184a172', 'b86d30f3-7538-49e0-b430-b1af0184a7fd', 'e99d5a01-15e9-4dd8-872e-b1af0184aa5e', 'b9dc8bd0-8206-46f6-a884-b1af0184af90', 
-    '4f2c4bcd-c216-4867-ae1d-b1af0184bfef', 'ed2d3657-388e-4a78-be48-b1af0184d87d', '928dca7e-899b-40d4-9d4d-b1af0184f199', 'e1216ddb-ae31-4325-9b6d-b1af01850424', '055c338d-7e98-482a-9f41-b1af01851f27'
-]
-*/
 
 let arredondo_base64
 let user_base64
@@ -133,90 +106,48 @@ const createPrompt = () => {
     document.getElementById('chatbox').appendChild( addPromptItem('Misconceptions & stereotypes', 'prompt3') )
 }
 
-// < section
-$('#section_div').click(function(event){
-    // event.pageX and event.pageY give the mouse pointer's current coordinates relative to the document
-    // var mouseX = event.pageX;
-    // var mouseY = event.pageY;
-
-    // Log the mouse coordinates
-    // console.log('Mouse X:', mouseX, 'Mouse Y:', mouseY);
-
-    // document.getElementById('intro').muted = false
-    // document.getElementById('intro').play()
-})
 // < speaker
 document.getElementById('speaker').addEventListener('click', () => {
     document.getElementById('intro').muted = false
     document.getElementById('intro').play();
 })
-/*
-function end_intro(){
-    console.log('intro video ENDED')
-    document.getElementById('intro_div').classList.add("hidden")
-    document.getElementById('waiting_div').classList.remove("hidden")
 
-    document.getElementById("status").innerHTML = 'playing video: Waiting'
-    console.log('waiting video playing ...')
-    document.getElementById('waiting').play()
-    document.getElementById("chat-container").classList.remove("hidden")
-    document.getElementById("chat-container").classList.add("animate-fade-in")
-    // document.getElementById("seal").classList.add("opacity-40")
-    document.getElementById("seal").classList.remove("hidden")
-    document.getElementById("seal").classList.add("animate-fade-in")
-    // document.getElementById("seal").classList.remove("opacity-0")
-
-    $('#speaker').hide(1000);
-    $('#skip_arrow').hide(1000);
-} */
-// < reset videos
-function reset_videos(){
-    // console.log( embedApi )
-    // console.log( topIntent )
-    // console.log( 'arredondo object ::: ', arreObj[topIntent] )
-    // console.log( 'sessionId ::: ', arreObj[topIntent].url)
-    $('#no-answer').css('display', 'none')
-    $('#encouraging').css('display', 'none')
-
-    // < remove iframe instance
-    const player = document.getElementById('pplayer')
-    player.style.display = ''
-    var iframe = player.querySelector("iframe");
-    // iframe.src = "https://google.com"
-    console.log( iframe.src)
-    const sessionId = arreObj[topIntent].url
-    const src = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Embed.aspx?id=' + sessionId + '&remoteEmbed=true&remoteHost=http%3A%2F%2Flocalhost%3A5173&embedApiId=pplayer&interactivity=none&showtitle=false'
-    iframe.src = src;
-}
 // * ------------------------
 // *    query dialogflow API
 // * ------------------------
 async function queryAPI_DF(userMessage) {
-    const response = await fetch('https://us-west2-classbot-336213.cloudfunctions.net/arredondo-detect-intent-1?input=' + userMessage);
+    init_intro = false
+    const response = await fetch('https://us-west2-classbot-336213.cloudfunctions.net/arredondo-detect-intent-1?input=' + userMessage + '&session=' + arre_session + '&sisId=' + arre_sis_id + '&email=' + arre_email + '&course=' + arre_course);
     const result = await response.json();
     console.log(result)
     if (result.queryResult.match.matchType === 'INTENT') {
+        // * mute other videos
+        if (embedApi.getState() === PlayerState.Playing) { embedApi.stopVideo() }
+        if (embedApi_inspiring.getState() === PlayerState.Playing) { embedApi_inspiring.stopVideo() }
+        if (embedApi_encouragement.getState() === PlayerState.Playing) { embedApi_encouragement.stopVideo() }
+        if (embedApi_no_answer.getState() === PlayerState.Playing) { embedApi_no_answer.stopVideo() }
+        
         const vid = result.queryResult.responseMessages[0].payload.fields.arredondo.structValue.fields.recordset.listValue.values[0].structValue.fields.url.stringValue
         // console.log( vid )
         const player = document.getElementById('pplayer')
         player.style.display = ''
         var iframe = player.querySelector("iframe");
-        // iframe.src = "https://google.com"
         // console.log( iframe.src)
         const sessionId = vid
         const src = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Embed.aspx?id=' + sessionId + '&remoteEmbed=true&remoteHost=http%3A%2F%2Flocalhost%3A5173&embedApiId=pplayer&interactivity=none&showtitle=false'
         iframe.src = src;
 
-        const vid_url = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=' + arreObj[topIntent].url
+        const vid_url = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=' + sessionId
+        // const vid_url = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=' + arreObj[topIntent].url
         $('#chatbox').append( createArrResponse({ 
             type: 'link', 
             url: vid_url, 
             msg: {part: ['You can also view this video using ', 'this link', '.']}
-        }) )    
+        }) )
     } else if (result.queryResult.match.matchType === 'NO_MATCH') {
         // play_noanswer()
         console.log( 'NO_MATCH' )
-        console.log( arre_noanswer )
+        console.log( response )
         const msg = "That's a good question, but I'm not entirely sure."
         $('#chatbox').append( createArrResponse({ type: 'text', text: msg }) )  
 
@@ -224,80 +155,15 @@ async function queryAPI_DF(userMessage) {
         $('#inspiring').css('display', "none")
         $('#waiting').css('display', "none")
         // $('#').css('display', "none")
+        if (embedApi.getState() === PlayerState.Playing) { embedApi.stopVideo() }
+        if (embedApi_inspiring.getState() === PlayerState.Playing) { embedApi_inspiring.stopVideo() }
+        if (embedApi_encouragement.getState() === PlayerState.Playing) { embedApi_encouragement.stopVideo() }
 
-        embedApi.stopVideo()
-        embedApi_inspiring.stopVideo()
+        $('#no-answer').css('display', '')
+        if (embedApi_no_answer) { embedApi_no_answer.seekTo(0); embedApi_no_answer.playVideo() }
         // const no_answer = document.getElementById("no-answer")
         // no_answer.style.display = ''
-        $('#no-answer').css('display', '')
-        embedApi_no_answer.playVideo()
     }
-}
-// * --------------------
-// *    query Azure API
-// * --------------------
-async function queryAPI_Azure(userMessage) {
-    $('#speaker').hide(1000);
-    $('#skip_arrow').hide(1000);
-    // const url = 'http://localhost:7071/api/detect-intent-2'
-    const url = 'https://arredondo.azurewebsites.net/api/detect-intent-2'
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify({
-            text: userMessage
-        })
-    })
-    const data = await response.json();
-    console.log( '::: top intent ::: ', data.result.prediction.topIntent )
-    topIntent = data.result.prediction.topIntent
-    // console.log( 'sessionId ::: ', arreObj[topIntent].url)
-    
-    // console.log( result.recordset )
-    if (data.result.prediction.topIntent === 'None') {
-        // reset_videos();
-        // document.getElementById('waiting').pause()
-        // document.getElementById('ask').pause()
-        const msg = "That's a good question, but I'm not entirely sure."
-        $('#chatbox').append( createArrResponse({ type: 'text', text: msg }) )    
-
-        console.log( 'sessionId ::: ', arreObj[topIntent].url)
-        // < remove iframe instance
-        /*
-        const player = document.getElementById('pplayer')
-        var iframe = player.querySelector("iframe");
-        // iframe.src = "https://google.com"
-        console.log( iframe.src)
-        const sessionId = arreObj[topIntent].url
-        const src = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Embed.aspx?id=' + sessionId + '&remoteEmbed=true&remoteHost=http%3A%2F%2Flocalhost%3A5173&embedApiId=pplayer&interactivity=none&showtitle=false'
-        iframe.src = src; */
-
-        // const pplayer = document.getElementById('pplayer')
-        // pplayer.style.display = "none"
-        $('#pplayer').css('display', "none")
-        embedApi.stopVideo()
-        // const no_answer = document.getElementById("no-answer")
-        // no_answer.style.display = ''
-        $('#no-answer').css('display', '')
-        // embedApi_no_answer.stopVideo()
-        // embedApi_no_answer.loadVideo()
-        // embedApi_no_answer.playVideo()
-    
-    } else {
-        reset_videos();
-        // $('#answer_div').removeClass('hidden')
-        // $('#answer').attr('src', vid_url)
-        const vid_url = 'https://westcoastuniversity.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=' + arreObj[topIntent].url
-        $('#chatbox').append( createArrResponse({ 
-            type: 'link', 
-            url: vid_url, 
-            msg: {part: ['You can also view this video using ', 'this link', '.']}
-        }) )    
-    }
-    return true
 }
 
 // *************************************************************************************************
@@ -479,41 +345,17 @@ function calculate_iframe_dim(){
     var container = document.getElementById("pplayer");
     var iframe = container.querySelector("iframe");
     const ar = window.innerWidth/window.innerHeight
-    console.log('AR : ', ar)
+    // console.log('AR : ', ar)
 
     if ( ar < 1.778 ) {
       const adjusted_height = Math.floor( iframe.width / 1.778 )
       iframe.style.height = adjusted_height + 'px'
-      console.log( 'adjusted height: ', adjusted_height)
+    //   console.log( 'adjusted height: ', adjusted_height)
     } else {
       const adjusted_width = Math.floor( iframe.height * 1.778 )
       iframe.style.width = adjusted_width + 'px'
     }
 }
-
-async function fetchData() {
-    try {
-        // const arredb_url = 'http://localhost:7071/api/arredondo_db_crud'
-        const arredb_url = 'https://arredondo.azurewebsites.net/api/arredondo_db_crud'
-        const data = { action: 'init' }
-        video_list = await $.ajax({
-            url: arredb_url, // Replace with your API endpoint
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            dataType: 'json'
-        });
-        // return response;
-        console.log( video_list )
-        const byTag = (stored, current) => ({ ...stored, [current.tag]:current})
-        arreObj = video_list.reduce(byTag, {})
-        console.log( arreObj )
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        throw error;
-    }
-}
-
 
 $(document).ready(function() {
     // Your code here
@@ -756,35 +598,28 @@ $(document).ready(function() {
     $('#x3').click(() => { cancel_all() })
     $('#x4').click(() => { cancel_all() })
 
-    fetchData();
+    // fetchData();
 });
 
 // console.log('app.js loaded')
-//< 2nd canvas integration
-//< h5p for interactive videos
 
-//< training phrases upload
 //< ? prompting
 
-//< WCU seal up to 20% transparency
-//< review knowledge base articles for new intents
-//< WCU SASTRC for Students: https://helpdesk.westcoastuniversity.edu/support/solutions/48000455125
-
-//< email Jen for training phrases update
-//< work study to help test training phrases
 
 //! On start:  
 // <    Autoplay introduction  
 // <    Autoplay waiting  
 // <    Autoplay "ask me a question"
 
-//! After learner prompted video play:  
+//! After learner prompted video play:
+// <    play "arredondo" response
+// <    play "encouragement" clips
 // <    "Waiting"  
-// <    "Ask me a question"
+// <    inspiring to "Ask me a question"
 
-// "E_XX" files are "encouragement" clips. These may be played before or after a question response to encourage students. 
-// "IE_XX" files are "inspiring enquiry" (ask me) clips. These may be played after the learner has been idle or a few seconds after a response to keep the questions coming. 
-// "NA_XX" files are "no answer" clips. These may be played in response to a question that needs a better answer. 
+//< "E_XX" files are "encouragement" clips. These may be played before or after a question response to encourage students. 
+//< "IE_XX" files are "inspiring enquiry" (ask me) clips. These may be played after the learner has been idle or a few seconds after a response to keep the questions coming. 
+//< "NA_XX" files are "no answer" clips. These may be played in response to a question that needs a better answer. 
 
  
 

@@ -1,20 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- <script> 
-      var arre_sis_id = '${sissourceid}'
-      var arre_name_family = '${name_family}'
-      var arre_email = '${email}'
-      var arre_course = '${context_label}'
-    </script> -->
-
-    <script>
-      var arre_sis_id = 't_21674'
-      var arre_name_family = 'Chang'
-      var arre_email = 'jchang@westcoastuniversity.edu'
-      var arre_course = 'Sandbox_Heather_Pelkie'
-    </script>
-
     <script src="https://developers.panopto.com/scripts/embedapi.min.js"></script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -270,7 +256,7 @@
           <div class="flex flex-col absolute left-4 right-4 bottom-2">
             <div id="chat_input" class="msg-send-radius bg-white flex">
                 <input id="user-input" type="text" placeholder="Type a message" class="w-full px-3 py-2 border-none rounded-full focus:outline-none">
-                <img id="user-send" src="https://storage.googleapis.com/arredondo_videos/send_icon.png" class="mx-1 my-1 cursor-pointer" style="width: 32px; height: 32px" >
+                <img id="user-send" src="/send_icon.png" class="mx-1 my-1 cursor-pointer" style="width: 32px; height: 32px" >
                 
             </div>
             <div class="flex bg-[#346D7D] w-20 h-10 p-2 justify-between info-div-radius">
@@ -409,12 +395,6 @@
     }
     return array;
   } 
-  const sisId = 'inno_lab'
-  const today = new Date()
-  const today_date = today.toISOString().split('T')[0]
-  const today_sec = today.getTime().toString().slice(-6)
-  var arre_session = sisId + '_' + today_date + '_' + today_sec 
-  console.log( arre_session )
 </script>      
 
 
@@ -440,12 +420,12 @@
           videoParams: { // Optional parameters
           //interactivity parameter controls if the user sees table of contents, discussions, notes, & in-video search
               "interactivity": "none",
-              "showtitle": "true",
+              "showtitle": "false",
               "hideoverlay": "true"
           },
           events: {
-              "onIframeReady": onPanoptoIframeReady_inspiring,
-              "onReady": onPanoptoVideoReady_inspiring,
+              "onIframeReady": onPanoptoIframeReady,
+              "onReady": onPanoptoVideoReady,
               "onStateChange": onPanoptoStateUpdate_inspiring
           }
       });
@@ -454,7 +434,7 @@
   }
 
   // The API will call this function when the iframe is ready
-  function onPanoptoIframeReady_inspiring()
+  function onPanoptoIframeReady()
   {
       // The iframe is ready and the video is not yet loaded (on the splash screen)
       // Load video will begin playback
@@ -481,7 +461,7 @@
   }
 
   //The API will call this function when the video player is ready
-  function onPanoptoVideoReady_inspiring()
+  function onPanoptoVideoReady()
   {
       // The video has successfully been loaded by onPanoptoIframeReady
       console.log('seek to 1 sec')
@@ -513,6 +493,7 @@ onPanoptoEmbedApiReady()
 
 </script>
 
+
 <script dataname="waiting">
       /*
 *  === Panopto video start
@@ -534,11 +515,11 @@ onPanoptoEmbedApiReady()
               //interactivity parameter controls if the user sees table of contents, discussions, notes, & in-video search
                   "interactivity": "none",
                   "showtitle": "false",
-                  "hideoverlay": "true"
+                  "hideoverlay": "false"
               },
               events: {
-                  "onIframeReady": onPanoptoIframeReady_waiting,
-                  "onReady": onPanoptoVideoReady_waiting,
+                  "onIframeReady": onPanoptoIframeReady,
+                  "onReady": onPanoptoVideoReady,
                   "onStateChange": onPanoptoStateUpdate_waiting
               }
           });
@@ -547,7 +528,7 @@ onPanoptoEmbedApiReady()
       }
 
       // The API will call this function when the iframe is ready
-      function onPanoptoIframeReady_waiting()
+      function onPanoptoIframeReady()
       {
           // The iframe is ready and the video is not yet loaded (on the splash screen)
           // Load video will begin playback
@@ -573,7 +554,7 @@ onPanoptoEmbedApiReady()
       }
 
       //The API will call this function when the video player is ready
-      function onPanoptoVideoReady_waiting()
+      function onPanoptoVideoReady()
       {
           // The video has successfully been loaded by onPanoptoIframeReady
           console.log('seek to 1 sec')
@@ -616,6 +597,7 @@ onPanoptoEmbedApiReady()
 
 </script>
 
+
 <script dataname="no-answer">
         var embedApi_no_answer
         let init_noanswer = true
@@ -633,12 +615,11 @@ onPanoptoEmbedApiReady()
                 videoParams: { // Optional parameters
                 //interactivity parameter controls if the user sees table of contents, discussions, notes, & in-video search
                     "interactivity": "none",
-                    "showtitle": "false",
-                    "hideoverlay": "true"
-                  },
+                    "showtitle": "false"
+                },
                 events: {
-                    "onIframeReady": onPanoptoIframeReady_noanswer,
-                    "onReady": onPanoptoVideoReady_noanswer,
+                    "onIframeReady": onPanoptoIframeReady,
+                    "onReady": onPanoptoVideoReady,
                     "onStateChange": onPanoptoStateUpdate_noanswer
                 }
             });
@@ -647,7 +628,7 @@ onPanoptoEmbedApiReady()
         }
   
         // The API will call this function when the iframe is ready
-        function onPanoptoIframeReady_noanswer()
+        function onPanoptoIframeReady()
         {
             // The iframe is ready and the video is not yet loaded (on the splash screen)
             // Load video will begin playback
@@ -674,7 +655,7 @@ onPanoptoEmbedApiReady()
         }
   
         //The API will call this function when the video player is ready
-        function onPanoptoVideoReady_noanswer()
+        function onPanoptoVideoReady()
         {
             // The video has successfully been loaded by onPanoptoIframeReady
             console.log('seek to 1 sec')
@@ -719,6 +700,7 @@ onPanoptoEmbedApiReady()
   
 </script>
 
+
 <script dataname="encouragement">
         var embedApi_encouragement
         let init_encouragement = true
@@ -736,12 +718,11 @@ onPanoptoEmbedApiReady()
                 videoParams: { // Optional parameters
                 //interactivity parameter controls if the user sees table of contents, discussions, notes, & in-video search
                     "interactivity": "none",
-                    "showtitle": "false",
-                    "hideoverlay": "true"
-                  },
+                    "showtitle": "false"
+                },
                 events: {
-                    "onIframeReady": onPanoptoIframeReady_encouragement,
-                    "onReady": onPanoptoVideoReady_encouragement,
+                    "onIframeReady": onPanoptoIframeReady,
+                    "onReady": onPanoptoVideoReady,
                     "onStateChange": onPanoptoStateUpdate_encouragement
                 }
             });
@@ -750,7 +731,7 @@ onPanoptoEmbedApiReady()
         }
   
         // The API will call this function when the iframe is ready
-        function onPanoptoIframeReady_encouragement()
+        function onPanoptoIframeReady()
         {
             // The iframe is ready and the video is not yet loaded (on the splash screen)
             // Load video will begin playback
@@ -777,7 +758,7 @@ onPanoptoEmbedApiReady()
         }
   
         //The API will call this function when the video player is ready
-        function onPanoptoVideoReady_encouragement()
+        function onPanoptoVideoReady()
         {
             // The video has successfully been loaded by onPanoptoIframeReady
             console.log('seek to 1 sec')
@@ -796,6 +777,7 @@ onPanoptoEmbedApiReady()
               if (init_encouragement) {
                 embedApi_encouragement.pauseVideo()
                 init_encouragement = false
+                console.log('encouragement video paused ...')
               }
             }
             else if ( state === PlayerState.Ended) {
@@ -891,7 +873,7 @@ function play_video_id(sessionId){
 
       // The following function creates an <iframe> and Panopto player
       var embedApi
-      let init_intro = true
+      var init_intro = true
 
       function onPanoptoEmbedApiReady()
       {
@@ -915,7 +897,7 @@ function play_video_id(sessionId){
               }
           });
 
-          console.log('panopto embed api ready')
+          console.log('########### panopto embedApi ready')
       }
 
       // The API will call this function when the iframe is ready
@@ -939,29 +921,29 @@ function play_video_id(sessionId){
           }
 
           embedApi.loadVideo();
-          console.log('on--Panopto--Iframe--Ready')
+          console.log('########### on--Panopto--Iframe--Ready')
       }
 
       //The API will call this function when the video player is ready
       function onPanoptoVideoReady()
       {
           // The video has successfully been loaded by onPanoptoIframeReady
-          console.log('seek to 1 sec')
+          console.log('########### video ready')
           embedApi.seekTo(0);
       }
 
       //The API calls this function when a player state change happens
       function onPanoptoStateUpdate(state)
       {
-          console.log( 'player state ::: ', state )
+          console.log( '########### player state ::: ', state )
           if (state === 1)
           {
             //   embedApi.setVolume(1);
             //   embedApi.setPlaybackRate(1);
-            console.log('video playing ...')
+            console.log('########### video playing ...')
           }
           else if ( state === PlayerState.Ended) {
-            console.log('video Ended')
+            console.log('########### video Ended')
 
             if (init_intro) {
               embedApi_waiting.playVideo()
@@ -973,7 +955,7 @@ function play_video_id(sessionId){
             }
           }
           else if ( state === 2) {
-            console.log('video Paused')
+            console.log('########### video Paused')
           }
       }
 /*
